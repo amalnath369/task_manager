@@ -1,0 +1,86 @@
+{% extends "tasks/base.html" %}
+
+{% block main_content %}
+<div class="card">
+    <div class="card-header">
+        <h4>Task Details</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Basic Information</h5>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Title:</th>
+                        <td>{{ task.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description:</th>
+                        <td>{{ task.description|linebreaks }}</td>
+                    </tr>
+                    <tr>
+                        <th>Assigned To:</th>
+                        <td>{{ task.assigned_to.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Assigned By:</th>
+                        <td>{{ task.assigned_by.username|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Due Date:</th>
+                        <td>{{ task.due_date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Status:</th>
+                        <td>
+                            <span class="badge 
+                                {% if task.status == 'COMPLETED' %}bg-success
+                                {% elif task.status == 'IN_PROGRESS' %}bg-warning
+                                {% else %}bg-secondary{% endif %}">
+                                {{ task.get_status_display }}
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="col-md-6">
+                {% if task.status == 'COMPLETED' %}
+                <h5>Completion Report</h5>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Completion Report:</th>
+                        <td>{{ task.completion_report|linebreaks }}</td>
+                    </tr>
+                    <tr>
+                        <th>Worked Hours:</th>
+                        <td>{{ task.worked_hours }} hours</td>
+                    </tr>
+                    <tr>
+                        <th>Completed At:</th>
+                        <td>{{ task.completed_at|date:"Y-m-d H:i" }}</td>
+                    </tr>
+                </table>
+                {% elif task.assigned_to == user %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Mark as Completed</h5>
+                        <p class="text-muted">Fill out the completion details when you finish this task</p>
+                        <a href="{% url 'api-tasks-detail' task.id %}" class="btn btn-success">
+                            Submit Completion Report
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="mt-3">
+            <a href="/tasks/" class="btn btn-secondary">Back to List</a>
+            {% if user.is_superadmin or user.is_admin or task.assigned_to == user %}
+            <a href="{% url 'api-tasks-detail' task.id %}" class="btn btn-warning">Edit Task</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

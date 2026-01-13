@@ -1,0 +1,70 @@
+{% extends "tasks/base.html" %}
+
+{% block main_content %}
+<div class="card">
+    <div class="card-header">
+        <h4>Admin Dashboard</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Tasks</h5>
+                        <p class="card-text display-6">
+                            {{ user.assigned_tasks.count|default:"0" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Completed</h5>
+                        <p class="card-text display-6">
+                            {{ user.assigned_tasks.filter.status.COMPLETED|default:"0" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">In Progress</h5>
+                        <p class="card-text display-6">
+                            {{ user.assigned_tasks.filter.status.IN_PROGRESS|default:"0" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Pending</h5>
+                        <p class="card-text display-6">
+                            {{ user.assigned_tasks.filter.status.PENDING|default:"0" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <h5>Quick Actions</h5>
+            <div class="d-grid gap-2 d-md-block">
+                <a href="{% url 'api-tasks-list' %}" class="btn btn-primary me-2">
+                    Create New Task (API)
+                </a>
+                <a href="/tasks/" class="btn btn-secondary me-2">
+                    View All Tasks
+                </a>
+                {% if user.is_superadmin %}
+                <a href="/users/" class="btn btn-info me-2">
+                    Manage Users
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

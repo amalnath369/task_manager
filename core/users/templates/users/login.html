@@ -1,0 +1,58 @@
+{% extends "users/base.html" %}
+{% block title %}Login - Task Manager{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card mt-5">
+            <div class="card-body">
+                <h2 class="text-center mb-4">Task Manager Login</h2>
+                
+                {% if error %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+                
+                <form method="post" action="{% url 'api-login' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+                
+                <div class="mt-3 text-center">
+                    <small class="text-muted">Use your credentials to access the Task Management System</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-3">
+            <h5>Demo Credentials</h5>
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>SuperAdmin</h6>
+                    <p class="small">Username: superadmin<br>Password: admin123</p>
+                </div>
+                <div class="col-md-4">
+                    <h6>Admin</h6>
+                    <p class="small">Username: admin1<br>Password: admin123</p>
+                </div>
+                <div class="col-md-4">
+                    <h6>User</h6>
+                    <p class="small">Username: user1<br>Password: user123</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
