@@ -1,5 +1,10 @@
 # Task Management Application
 
+
+# Repository
+
+https://github.com/amalnath369/task_manager.git
+
 ## Overview
 
 Task management system with role-based access, task completion reports, and custom admin panel built using Django and Django REST Framework.
@@ -134,11 +139,6 @@ Clone repository and run docker-compose up --build
 
 Create venv, install requirements, migrate, runserver
 
-# Testing
-
-## Django Tests
-
-python manage.py test
 
 # Environment Variables
 
